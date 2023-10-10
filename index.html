@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copy Table</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        #copyButton {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        #copyButton:hover {
+            background-color: #0056b3;
+        }
+
+        .copied {
+            background-color: #00008B; /* Dark Blue */
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Description</th>
+            <th>Steps</th>
+            <th>Expected Result</th>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+    <button id="copyButton">Copy Table</button>
+
+    <script>
+        const copyButton = document.getElementById("copyButton");
+        const table = document.querySelector("table");
+
+        copyButton.addEventListener("click", () => {
+            // Create a range object to select the table
+            const range = document.createRange();
+            range.selectNode(table);
+
+            // Select the table
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+
+            try {
+                // Copy the selected text to the clipboard
+                document.execCommand("copy");
+                copyButton.classList.add("copied"); // Add the "copied" class
+            } catch (err) {
+                console.error("Unable to copy table: ", err);
+            } finally {
+                // Clear the selection
+                window.getSelection().removeAllRanges();
+            }
+        });
+    </script>
+</body>
+</html>
